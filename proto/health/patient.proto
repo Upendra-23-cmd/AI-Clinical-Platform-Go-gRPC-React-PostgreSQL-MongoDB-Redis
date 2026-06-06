@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package health.patient;
+
+option go_package = "github.com/healthos/proto/health/patient";
+
+import "google/protobuf/timestamp.proto";
+
+service PatientService {
+  rpc CreatePatient(CreatePatientRequest) returns (PatientResponse);
+  rpc GetPatient(GetPatientRequest) returns (PatientResponse);
+  rpc UpdatePatient(UpdatePatientRequest) returns (PatientResponse);
+  rpc ListPatients(ListPatientsRequest) returns (ListPatientsResponse);
+  rpc SearchPatients(SearchPatientsRequest) returns (ListPatientsResponse);
+  rpc GetPatientMedicalHistory(GetPatientRequest) returns (MedicalHistoryResponse);
+  rpc AddMedicalRecord(AddMedicalRecordRequest) returns (MedicalRecordResponse);
+}
+
+message Patient {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  string phone = 5;
+  string date_of_birth = 6;
+  string gender = 7;
+  string blood_type = 8;
+  string address = 9;
+  string emergency_contact = 10;
+  repeated string allergies = 11;
+  repeated string chronic_conditions = 12;
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+  string status = 15;
+  float risk_score = 16;
+}
+
+message MedicalRecord {
+  string id = 1;
+  string patient_id = 2;
+  string diagnosis = 3;
+  string treatment = 4;
+  string doctor_id = 5;
+  string notes = 6;
+  repeated string medications = 7;
+  google.protobuf.Timestamp visit_date = 8;
+  string record_type = 9;
+  repeated string lab_results = 10;
+}
+
+message CreatePatientRequest {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+  string phone = 4;
+  string date_of_birth = 5;
+  string gender = 6;
+  string blood_type = 7;
+  string address = 8;
+  string emergency_contact = 9;
+  repeated string allergies = 10;
+  repeated string chronic_conditions = 11;
+}
+
+message GetPatientRequest {
+  string id = 1;
+}
+
+message UpdatePatientRequest {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  string phone = 5;
+  string address = 6;
+  string emergency_contact = 7;
+  repeated string allergies = 8;
+  repeated string chronic_conditions = 9;
+}
+
+message ListPatientsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string sort_by = 3;
+  string sort_order = 4;
+}
+
+message SearchPatientsRequest {
+  string query = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message AddMedicalRecordRequest {
+  string patient_id = 1;
+  string diagnosis = 2;
+  string treatment = 3;
+  string doctor_id = 4;
+  string notes = 5;
+  repeated string medications = 6;
+  string record_type = 7;
+}
+
+message PatientResponse {
+  Patient patient = 1;
+  string message = 2;
+}
+
+message ListPatientsResponse {
+  repeated Patient patients = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message MedicalHistoryResponse {
+  string patient_id = 1;
+  repeated MedicalRecord records = 2;
+  int32 total = 3;
+}
+
+message MedicalRecordResponse {
+  MedicalRecord record = 1;
+  string message = 2;
+}

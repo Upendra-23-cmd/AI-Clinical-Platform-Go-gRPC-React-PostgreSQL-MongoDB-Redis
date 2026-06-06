@@ -1,0 +1,48 @@
+# ── Go ───────────────────────────────────────────────────────
+bin/
+gen/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+coverage.out
+coverage.html
+
+# ── Node / Frontend ──────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+.npm/
+
+# ── Environment & secrets ────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+
+# ── IDEs ─────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Proto generated (commit only if checked-in to repo) ──────
+# Uncomment to ignore generated stubs:
+# gen/
+
+# ── Misc ─────────────────────────────────────────────────────
+tmp/
+.cache/

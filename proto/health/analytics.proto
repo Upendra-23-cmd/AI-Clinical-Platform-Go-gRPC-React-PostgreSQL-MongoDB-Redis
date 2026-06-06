@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package health.analytics;
+
+option go_package = "github.com/healthos/proto/health/analytics";
+
+import "google/protobuf/timestamp.proto";
+
+service AnalyticsService {
+  rpc GetDashboardMetrics(DashboardRequest) returns (DashboardResponse);
+  rpc GetPatientTrends(PatientTrendsRequest) returns (PatientTrendsResponse);
+  rpc GetDepartmentStats(DepartmentStatsRequest) returns (DepartmentStatsResponse);
+  rpc GetRevenueAnalytics(RevenueRequest) returns (RevenueResponse);
+  rpc GetOccupancyReport(OccupancyRequest) returns (OccupancyResponse);
+  rpc RecordEvent(RecordEventRequest) returns (RecordEventResponse);
+}
+
+message Metric {
+  string name = 1;
+  double value = 2;
+  string unit = 3;
+  double change_percentage = 4;
+  string trend = 5;
+}
+
+message TimeSeriesPoint {
+  google.protobuf.Timestamp timestamp = 1;
+  double value = 2;
+  string label = 3;
+}
+
+message DepartmentStat {
+  string department = 1;
+  int32 patient_count = 2;
+  double avg_wait_time = 3;
+  double satisfaction_score = 4;
+  int32 appointments_today = 5;
+  int32 available_beds = 6;
+}
+
+message DashboardRequest {
+  string date_from = 1;
+  string date_to = 2;
+  string hospital_id = 3;
+}
+
+message PatientTrendsRequest {
+  string period = 1;
+  string metric = 2;
+  string department = 3;
+}
+
+message DepartmentStatsRequest {
+  string date = 1;
+  string hospital_id = 2;
+}
+
+message RevenueRequest {
+  string date_from = 1;
+  string date_to = 2;
+  string group_by = 3;
+}
+
+message OccupancyRequest {
+  string date = 1;
+  string department = 2;
+}
+
+message RecordEventRequest {
+  string event_type = 1;
+  string entity_id = 2;
+  string entity_type = 3;
+  string metadata = 4;
+  string user_id = 5;
+}
+
+message DashboardResponse {
+  repeated Metric metrics = 1;
+  int32 total_patients_today = 2;
+  int32 appointments_today = 3;
+  int32 available_beds = 4;
+  int32 critical_alerts = 5;
+  double avg_wait_time = 6;
+  double patient_satisfaction = 7;
+  repeated TimeSeriesPoint admission_trend = 8;
+}
+
+message PatientTrendsResponse {
+  string metric = 1;
+  string period = 2;
+  repeated TimeSeriesPoint data_points = 3;
+  double average = 4;
+  double peak_value = 5;
+}
+
+message DepartmentStatsResponse {
+  repeated DepartmentStat departments = 1;
+  string date = 2;
+  int32 total_staff_on_duty = 3;
+}
+
+message RevenueResponse {
+  repeated TimeSeriesPoint revenue_data = 1;
+  double total_revenue = 2;
+  double avg_per_patient = 3;
+  string currency = 4;
+}
+
+message OccupancyResponse {
+  string department = 1;
+  int32 total_beds = 2;
+  int32 occupied_beds = 3;
+  double occupancy_rate = 4;
+  repeated string critically_occupied = 5;
+}
+
+message RecordEventResponse {
+  string event_id = 1;
+  bool success = 2;
+}

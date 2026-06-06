@@ -1,0 +1,168 @@
+syntax = "proto3";
+
+package health.diagnostic;
+
+option go_package = "github.com/healthos/proto/health/diagnostic";
+
+import "google/protobuf/timestamp.proto";
+
+service DiagnosticService {
+  rpc AnalyzeSymptoms(AnalyzeSymptomsRequest) returns (DiagnosticResponse);
+  rpc GetRiskAssessment(RiskAssessmentRequest) returns (RiskAssessmentResponse);
+  rpc GetTreatmentRecommendation(TreatmentRequest) returns (TreatmentResponse);
+  rpc AnalyzeMedicalImage(MedicalImageRequest) returns (ImageAnalysisResponse);
+  rpc GetDrugInteractions(DrugInteractionRequest) returns (DrugInteractionResponse);
+  rpc GeneratePatientSummary(PatientSummaryRequest) returns (PatientSummaryResponse);
+  rpc ChatWithAI(ChatRequest) returns (ChatResponse);
+}
+
+message Symptom {
+  string name = 1;
+  string severity = 2;
+  int32 duration_days = 3;
+  string description = 4;
+}
+
+message Diagnosis {
+  string condition = 1;
+  float confidence = 2;
+  string description = 3;
+  string icd_code = 4;
+  string urgency_level = 5;
+}
+
+message TreatmentOption {
+  string treatment = 1;
+  string description = 2;
+  float effectiveness = 3;
+  repeated string side_effects = 4;
+  bool requires_specialist = 5;
+}
+
+message RiskFactor {
+  string factor = 1;
+  string severity = 2;
+  string recommendation = 3;
+}
+
+message AnalyzeSymptomsRequest {
+  string patient_id = 1;
+  repeated Symptom symptoms = 2;
+  string age = 3;
+  string gender = 4;
+  repeated string existing_conditions = 5;
+  repeated string current_medications = 6;
+}
+
+message RiskAssessmentRequest {
+  string patient_id = 1;
+  repeated string conditions = 2;
+  string age = 3;
+  string gender = 4;
+  string lifestyle_factors = 5;
+  string family_history = 6;
+}
+
+message TreatmentRequest {
+  string diagnosis = 1;
+  string patient_id = 2;
+  repeated string allergies = 3;
+  repeated string current_medications = 4;
+  string patient_age = 5;
+}
+
+message MedicalImageRequest {
+  string patient_id = 1;
+  bytes image_data = 2;
+  string image_type = 3;
+  string body_region = 4;
+}
+
+message DrugInteractionRequest {
+  repeated string medications = 1;
+  string patient_id = 2;
+}
+
+message PatientSummaryRequest {
+  string patient_id = 1;
+  bool include_recommendations = 2;
+}
+
+message ChatRequest {
+  string patient_id = 1;
+  string message = 2;
+  repeated ChatMessage history = 3;
+  string context = 4;
+}
+
+message ChatMessage {
+  string role = 1;
+  string content = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message DiagnosticResponse {
+  string session_id = 1;
+  repeated Diagnosis possible_diagnoses = 2;
+  string urgency_level = 3;
+  string recommendation = 4;
+  repeated string follow_up_questions = 5;
+  bool emergency_referral = 6;
+  google.protobuf.Timestamp analyzed_at = 7;
+}
+
+message RiskAssessmentResponse {
+  string patient_id = 1;
+  float overall_risk_score = 2;
+  string risk_category = 3;
+  repeated RiskFactor risk_factors = 4;
+  repeated string preventive_measures = 5;
+  string next_screening_date = 6;
+}
+
+message TreatmentResponse {
+  string diagnosis = 1;
+  repeated TreatmentOption options = 2;
+  string lifestyle_recommendations = 3;
+  repeated string specialist_referrals = 4;
+  string monitoring_plan = 5;
+}
+
+message ImageAnalysisResponse {
+  string analysis_id = 1;
+  string findings = 2;
+  repeated string anomalies = 3;
+  float confidence = 4;
+  string recommendation = 5;
+  bool requires_review = 6;
+}
+
+message DrugInteractionResponse {
+  repeated DrugInteraction interactions = 1;
+  string safety_summary = 2;
+  repeated string warnings = 3;
+}
+
+message DrugInteraction {
+  string drug1 = 1;
+  string drug2 = 2;
+  string severity = 3;
+  string description = 4;
+  string recommendation = 5;
+}
+
+message PatientSummaryResponse {
+  string patient_id = 1;
+  string summary = 2;
+  repeated string key_concerns = 3;
+  repeated string recommendations = 4;
+  string next_steps = 5;
+}
+
+message ChatResponse {
+  string message = 1;
+  string session_id = 2;
+  repeated string suggestions = 3;
+  bool escalate_to_doctor = 4;
+  string urgency = 5;
+}
