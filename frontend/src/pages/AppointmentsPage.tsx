@@ -305,10 +305,4 @@ function ApptCard({ appt, idx }: { appt: typeof MOCK_APPOINTMENTS[0]; idx: numbe
   );
 }
 
-// Keep formatDate in scope
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
-}
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
+
