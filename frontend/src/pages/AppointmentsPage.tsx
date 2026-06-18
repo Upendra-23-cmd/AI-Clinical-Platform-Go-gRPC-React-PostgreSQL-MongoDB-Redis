@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar, Clock, Video, MapPin, Plus, Filter, ChevronRight, User } from 'lucide-react';
+import {  Clock, Video, MapPin, Plus, Filter, ChevronRight, User } from 'lucide-react';
 
 const MOCK_APPOINTMENTS = [
   { id: 'a-001', patient_id: 'p-001', doctor_id: 'd-01', doctor_name: 'Dr. Sarah Chen', department: 'Cardiology', scheduled_at: '2025-06-05T09:00:00Z', duration_minutes: 30, status: 'confirmed', appointment_type: 'Follow-up', notes: 'Quarterly cardiac review', room: '3B-12', is_telemedicine: false, wait_time_minutes: 0, created_at: '' },
